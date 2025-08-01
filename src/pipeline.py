@@ -1,7 +1,7 @@
 # src/pipeline.py
 from langgraph.graph import StateGraph
 from langgraph.checkpoint.sqlite import SqliteSaver
-from typing import TypedDict, Annotated, Sequence
+from typing import TypedDict, Annotated, Sequence, Optional, List
 import pandas as pd
 from datetime import datetime
 import logging
@@ -13,7 +13,7 @@ from src.utils.logging_config import setup_logging, get_logger
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-class PipelineState(TypedDict):
+class PipelineState(TypedDict, total=False):
     """State shared across all agents"""
     # Input
     data_path: str
@@ -21,25 +21,31 @@ class PipelineState(TypedDict):
     project_name: str
     
     # Data Processing
-    raw_data: pd.DataFrame
-    processed_data: pd.DataFrame
-    validation_report: dict
-    feature_report: dict
+    raw_data: Optional[pd.DataFrame]
+    processed_data: Optional[pd.DataFrame]
+    cleaned_data: Optional[pd.DataFrame]
+    validation_report: Optional[dict]
+    feature_report: Optional[dict]
+    data_info: Optional[dict]
+    cleaning_report: Optional[dict]
     
     # Model Training
-    trained_models: dict
-    best_model: dict
-    evaluation_results: dict
+    trained_models: Optional[dict]
+    best_model: Optional[dict]
+    evaluation_results: Optional[dict]
+    training_report: Optional[dict]
     
     # Deployment
-    deployment_url: str
-    model_id: str
+    deployment_info: Optional[dict]
+    deployment_url: Optional[str]
+    model_id: Optional[str]
+    monitoring_info: Optional[dict]
     
     # Workflow
     current_step: str
     next_action: str
-    errors: list
-    execution_log: list
+    errors: List[str]
+    execution_log: List[str]
 
 class AutonomousMLPipeline:
     def __init__(self, checkpoint_dir: str = "./checkpoints"):
@@ -123,7 +129,7 @@ class AutonomousMLPipeline:
     
     def _route_after_validation(self, state: PipelineState) -> str:
         """Route based on data validation results"""
-        validation_report = state.get("validation_report", {})
+        validation_report = state.get("validation_report") or {}
         
         if validation_report.get("is_valid", False):
             return "proceed"
@@ -134,7 +140,7 @@ class AutonomousMLPipeline:
     
     def _route_after_evaluation(self, state: PipelineState) -> str:
         """Route based on model evaluation results"""
-        best_model = state.get("best_model", {})
+        best_model = state.get("best_model") or {}
         performance = best_model.get("performance", {})
         
         # Define thresholds
@@ -154,7 +160,7 @@ class AutonomousMLPipeline:
     async def run_pipeline(self, 
                           data_path: str, 
                           target_column: str, 
-                          project_name: str = None) -> dict:
+                          project_name: Optional[str] = None) -> dict:
         """Execute the complete ML pipeline"""
         
         if project_name is None:

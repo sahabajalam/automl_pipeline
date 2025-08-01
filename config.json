@@ -1,0 +1,71 @@
+{
+    "paths": {
+        "PROJECT_ROOT": ".",
+        "DATA_DIR": "./data",
+        "RAW_DATA_DIR": "./data/raw",
+        "PROCESSED_DATA_DIR": "./data/processed",
+        "SAMPLE_DATA_DIR": "./data/sample",
+        "MODELS_DIR": "./models",
+        "CHECKPOINTS_DIR": "./checkpoints",
+        "DEPLOYMENTS_DIR": "./deployments",
+        "LOGS_DIR": "./logs",
+        "NOTEBOOKS_DIR": "./notebooks",
+        "TESTS_DIR": "./tests"
+    },
+    "mlflow": {
+        "TRACKING_URI": "sqlite:///mlflow.db",
+        "EXPERIMENT_NAME": "autonomous_ml_pipeline",
+        "ARTIFACT_LOCATION": null,
+        "REGISTRY_URI": null
+    },
+    "training": {
+        "TEST_SIZE": 0.2,
+        "VALIDATION_SIZE": 0.2,
+        "RANDOM_STATE": 42,
+        "CV_FOLDS": 3,
+        "MAX_TRAINING_TIME": 3600,
+        "EARLY_STOPPING_PATIENCE": 10,
+        "HYPERPARAMETER_TUNING_ITERATIONS": 20
+    },
+    "thresholds": {
+        "MIN_ACCURACY": 0.7,
+        "MIN_F1_SCORE": 0.65,
+        "MIN_PRECISION": 0.6,
+        "MIN_RECALL": 0.6,
+        "MIN_ROC_AUC": 0.7,
+        "MIN_R2_SCORE": 0.5,
+        "MAX_MAE": 1000.0,
+        "MAX_RMSE": 1000.0,
+        "MAX_MAPE": 20.0
+    },
+    "data_validation": {
+        "MAX_FILE_SIZE_MB": 500,
+        "MIN_ROWS": 100,
+        "MAX_MISSING_PERCENTAGE": 50.0,
+        "MAX_DUPLICATE_PERCENTAGE": 10.0,
+        "SUPPORTED_FILE_FORMATS": [
+            ".csv",
+            ".xlsx",
+            ".json",
+            ".parquet"
+        ]
+    },
+    "feature_engineering": {
+        "MAX_FEATURES": 50,
+        "MIN_FEATURE_IMPORTANCE": 0.01,
+        "CORRELATION_THRESHOLD": 0.9,
+        "VARIANCE_THRESHOLD": 0.01,
+        "OUTLIER_METHOD": "iqr",
+        "OUTLIER_THRESHOLD": 1.5
+    },
+    "deployment": {
+        "DEFAULT_PORT": 8000,
+        "DEFAULT_HOST": "0.0.0.0",
+        "WORKERS": 1,
+        "TIMEOUT": 30,
+        "MAX_REQUEST_SIZE": 10485760,
+        "RATE_LIMIT_PER_MINUTE": 1000,
+        "ENABLE_CORS": true,
+        "ENABLE_DOCS": true
+    }
+}

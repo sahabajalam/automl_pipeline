@@ -712,4 +712,4 @@ class FeatureAnalyzer:
                 'scale': scaler.scale_.tolist()
             }
         
-        return X_
+        return X_copy, scaling_info
