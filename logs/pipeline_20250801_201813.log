@@ -1,0 +1,2 @@
+2025-08-01 20:18:13,871 - autonomous_ml_pipeline - INFO - setup_logging:73 - Logging initialized. Level: INFO
+2025-08-01 20:18:13,872 - autonomous_ml_pipeline - INFO - setup_logging:76 - Log file: logs\pipeline_20250801_201813.log

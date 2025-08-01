@@ -111,8 +111,7 @@ class DataIngestionAgent:
             data = state['raw_data']
             target_column = state['target_column']
             
-            # Create Great Expectations DataFrame
-            ge_df = ge.from_pandas(data)
+            # DataFrame is already loaded as 'data'; skip Great Expectations dataset wrapper (not needed)
             
             # Basic validation checks
             validation_results = []
@@ -306,14 +305,14 @@ class DataPreprocessor:
             if data_copy[col].dtype == 'object':
                 # Try to convert to numeric
                 try:
-                    data_copy[col] = pd.to_numeric(data_copy[col], errors='ignore')
+                    data_copy[col] = pd.to_numeric(data_copy[col], errors='coerce')
                 except:
                     pass
                 
                 # Try to convert to datetime
                 if data_copy[col].dtype == 'object':
                     try:
-                        data_copy[col] = pd.to_datetime(data_copy[col], errors='ignore')
+                        data_copy[col] = pd.to_datetime(data_copy[col], errors='coerce')
                     except:
                         pass
         

@@ -1,6 +1,6 @@
 # src/pipeline.py
 from langgraph.graph import StateGraph
-from langgraph.checkpoint.sqlite import SqliteSaver
+from langgraph.checkpoint.memory import MemorySaver
 from typing import TypedDict, Annotated, Sequence, Optional, List
 import pandas as pd
 from datetime import datetime
@@ -54,9 +54,7 @@ class AutonomousMLPipeline:
         os.makedirs(checkpoint_dir, exist_ok=True)
         
         # Initialize checkpointer for state persistence
-        self.checkpointer = SqliteSaver.from_conn_string(
-            f"sqlite:///{checkpoint_dir}/pipeline_state.db"
-        )
+        self.checkpointer = MemorySaver()
         
         # Build the graph
         self.graph = self._build_graph()

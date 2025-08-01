@@ -12,7 +12,7 @@ great-expectations>=0.17.0
 mlflow>=2.8.0
 
 # Pipeline and Workflow Management
-langgraph>=0.0.40
+langgraph>=0.6.0
 
 # API Development
 fastapi>=0.104.0
